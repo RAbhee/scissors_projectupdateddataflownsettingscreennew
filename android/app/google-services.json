@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "607405541160",
+    "project_id": "scissorproject-f043c",
+    "storage_bucket": "scissorproject-f043c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607405541160:android:86e10cdcd22d5ad8da321d",
+        "android_client_info": {
+          "package_name": "com.example.scissors_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH2_wMUIXwpIXtDv_BXcUwWgFmZSIyiaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
