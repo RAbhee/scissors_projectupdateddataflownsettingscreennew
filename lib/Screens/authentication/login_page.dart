@@ -43,7 +43,6 @@ class _LoginPageState extends State<LoginPage>
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-
           children: [
             Container(
             decoration: BoxDecoration(
