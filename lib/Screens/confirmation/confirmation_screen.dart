@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class ConfirmationScreen extends StatelessWidget {
   final String name;
   final String phoneNumber;
-  final String selectedDate;
-  final String selectedTimeSlots;
+  final DateTime selectedDate;
+  final List<String> selectedTimeSlots;
+
+  const ConfirmationScreen({
+    required this.name,
+    required this.phoneNumber,
+    required this.selectedDate,
+    required this.selectedTimeSlots,});
 
 
-  const ConfirmationScreen({Key? key, required this.name, required this.phoneNumber, required this.selectedDate, required this.selectedTimeSlots, }) : super(key: key);
+  String formattedDate(DateTime date) {
+    return DateFormat.yMMMMd().format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +141,7 @@ class ConfirmationScreen extends StatelessWidget {
                               color: Colors.blueGrey,
                             ),
                             Text(
-                                 'Selected Date: ${selectedDate}',
+                              'Selected Time Slots: ${selectedTimeSlots.join(",")}',
                               style: GoogleFonts.openSans(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -140,13 +149,14 @@ class ConfirmationScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'Selected Time Slots: ${selectedTimeSlots}',
+                                 'Selected Date: ${formattedDate(selectedDate)}',
                               style: GoogleFonts.openSans(
                                 fontSize: 18,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+
                             SizedBox(height: 5,),
                           ]
                       ),
@@ -159,5 +169,7 @@ class ConfirmationScreen extends StatelessWidget {
         ],
       ),
     );
+
+
   }
 }

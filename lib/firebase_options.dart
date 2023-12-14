@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCWHjGGbm_e2-5LoDW-mYydiK7v9TA92YE',
-    appId: '1:607405541160:web:b7a6c718c724d6d5da321d',
-    messagingSenderId: '607405541160',
-    projectId: 'scissorproject-f043c',
-    authDomain: 'scissorproject-f043c.firebaseapp.com',
-    storageBucket: 'scissorproject-f043c.appspot.com',
-    measurementId: 'G-K5F8GNEDS9',
+    apiKey: 'AIzaSyC73yH176_UGNTzXgJKRiVHDTvE_GEWAtM',
+    appId: '1:757222958410:web:62390eae4de62a28744db3',
+    messagingSenderId: '757222958410',
+    projectId: 'saloonprojet-4b216',
+    authDomain: 'saloonprojet-4b216.firebaseapp.com',
+    storageBucket: 'saloonprojet-4b216.appspot.com',
+    measurementId: 'G-RZ5JKRM2HW',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCH2_wMUIXwpIXtDv_BXcUwWgFmZSIyiaE',
-    appId: '1:607405541160:android:86e10cdcd22d5ad8da321d',
-    messagingSenderId: '607405541160',
-    projectId: 'scissorproject-f043c',
-    storageBucket: 'scissorproject-f043c.appspot.com',
+    apiKey: 'AIzaSyCONl2Fr2Dq6EUZpcUFzB5nQKNo_2bxayE',
+    appId: '1:757222958410:android:a78ac4879e289b38744db3',
+    messagingSenderId: '757222958410',
+    projectId: 'saloonprojet-4b216',
+    storageBucket: 'saloonprojet-4b216.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAs8uw8rdCnJN_ox46NX-dDEfypf3WKy9g',
-    appId: '1:607405541160:ios:beb14bcd7c61f3fdda321d',
-    messagingSenderId: '607405541160',
-    projectId: 'scissorproject-f043c',
-    storageBucket: 'scissorproject-f043c.appspot.com',
+    apiKey: 'AIzaSyC9pYuiPT9LjVL55Noe0MuAPikIcQEvU_s',
+    appId: '1:757222958410:ios:f0ef85bd968c0941744db3',
+    messagingSenderId: '757222958410',
+    projectId: 'saloonprojet-4b216',
+    storageBucket: 'saloonprojet-4b216.appspot.com',
     iosBundleId: 'com.example.scissorsProject',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAs8uw8rdCnJN_ox46NX-dDEfypf3WKy9g',
-    appId: '1:607405541160:ios:368168432d6eece5da321d',
-    messagingSenderId: '607405541160',
-    projectId: 'scissorproject-f043c',
-    storageBucket: 'scissorproject-f043c.appspot.com',
+    apiKey: 'AIzaSyC9pYuiPT9LjVL55Noe0MuAPikIcQEvU_s',
+    appId: '1:757222958410:ios:bf73a4bb6d6c0956744db3',
+    messagingSenderId: '757222958410',
+    projectId: 'saloonprojet-4b216',
+    storageBucket: 'saloonprojet-4b216.appspot.com',
     iosBundleId: 'com.example.scissorsProject.RunnerTests',
   );
 }

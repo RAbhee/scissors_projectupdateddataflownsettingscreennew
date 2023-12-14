@@ -80,39 +80,42 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
             ],
           ),
           Center(
-            child: Container(
-              height: 500,
-              width: 600,
-              child: Card(
-                margin: EdgeInsets.all(20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        _selectDate(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(150, 35),
-                        backgroundColor: Colors.brown,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Container(
+                height: 380,
+                width: 500,
+                child: Card(
+                 margin: EdgeInsets.all(10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          _selectDate(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(120, 35),
+                          backgroundColor: Colors.brown,
+                        ),
+                        child: Text(
+                          'SELECT DATE',
+                          style: AppFonts.getDescriptionStyle(),
+                        ),
                       ),
-                      child: Text(
-                        'SELECT DATE',
-                        style: AppFonts.getDescriptionStyle(),
+                      Expanded(
+                        child: HorizontalWeekCalendarPackage(
+                          selectedDate: selectedDate,
+                          buttonColors: buttonColors,
+                          onToggleColor: toggleButtonColor,
+                          key: GlobalKey(),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: HorizontalWeekCalendarPackage(
-                        selectedDate: selectedDate,
-                        buttonColors: buttonColors,
-                        onToggleColor: toggleButtonColor,
-                        key: GlobalKey(),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -197,7 +200,7 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
           ),
           SizedBox(height: 10),
           buildTimeSlotsColumn(),
-          SizedBox(height: 60),
+          SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
               navigateToConfirmationScreen(context);
@@ -205,7 +208,7 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
             style: ElevatedButton.styleFrom(primary: Colors.brown),
             child: Text(
               'BOOK YOUR APPOINTMENT',
-              style: AppFonts.getDescriptionStyle(),
+              style:AppFonts.getDescriptionStyle()
             ),
           ),
         ],
@@ -251,12 +254,13 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: widget.buttonColors[time],
-                fixedSize: Size(100, 35),
+                fixedSize: Size(120, 35),
               ),
               onPressed: () {
                 widget.onToggleColor(time);
               },
-              child: Text(time),
+              child: Text(formatTime(time),
+              style: TextStyle(color: Colors.white),),
             ),
           ],
         ),
@@ -286,7 +290,10 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
   }
 
   String formattedDate(DateTime date) {
-    return DateFormat.yMMMMd().format(date);
+    return DateFormat.yMMMMd().format(date).replaceAllMapped(RegExp(r'^0*'), (match) => '');
+  }
+  String formatTime(String time){
+    return time.replaceAllMapped(RegExp(r'^0*'), (match) =>'');
   }
 
 }

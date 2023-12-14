@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-
 import '../confirmation/confirmation_screen.dart';
 import 'auth_service.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, required DateTime selectedDate, required List<String> selectedTimeSlots}) : super(key: key);
+  final DateTime selectedDate;
+  final List<String> selectedTimeSlots;
+
+  const LoginPage({
+    Key? key, required this.selectedDate,
+    required this.selectedTimeSlots,}):
+        super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -38,12 +42,13 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
+        body: Stack(
 
-          child: Container(
+          children: [
+            Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                opacity: 200,
+                opacity: 100,
                 image: AssetImage('assets/background.jpg'),
                 fit: BoxFit.cover,
               ),
@@ -264,7 +269,7 @@ class _LoginPageState extends State<LoginPage>
                                                                             context,
                                                                             MaterialPageRoute(
                                                                               builder: (context) =>  ConfirmationScreen (name: _nameController.text,
-                                                                                phoneNumber: _phoneController.text, selectedDate:"" , selectedTimeSlots:"" ,), // Navigate to the next page on success
+                                                                                phoneNumber: _phoneController.text, selectedDate:widget.selectedDate , selectedTimeSlots:widget.selectedTimeSlots ,), // Navigate to the next page on success
                                                                             ),
                                                                           );
                                                                         } else {
@@ -332,6 +337,8 @@ class _LoginPageState extends State<LoginPage>
               ],
             ),
           ),
-        ));
+          ]
+        )
+    );
   }
 }

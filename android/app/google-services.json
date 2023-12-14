@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "607405541160",
-    "project_id": "scissorproject-f043c",
-    "storage_bucket": "scissorproject-f043c.appspot.com"
+    "project_number": "757222958410",
+    "project_id": "saloonprojet-4b216",
+    "storage_bucket": "saloonprojet-4b216.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:607405541160:android:86e10cdcd22d5ad8da321d",
+        "mobilesdk_app_id": "1:757222958410:android:a78ac4879e289b38744db3",
         "android_client_info": {
           "package_name": "com.example.scissors_project"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCH2_wMUIXwpIXtDv_BXcUwWgFmZSIyiaE"
+          "current_key": "AIzaSyCONl2Fr2Dq6EUZpcUFzB5nQKNo_2bxayE"
         }
       ],
       "services": {
