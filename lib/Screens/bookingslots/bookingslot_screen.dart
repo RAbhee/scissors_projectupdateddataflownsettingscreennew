@@ -70,7 +70,7 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 1),
               Column(
                 children: [
                   Text("CHOOSE YOUR SLOT",

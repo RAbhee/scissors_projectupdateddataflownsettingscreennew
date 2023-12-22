@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -54,9 +55,31 @@ class AuthService {
 
 
 
-  // check whether the user is logged in or not
+
   static Future<bool> isLoggedIn() async {
     var user = _firebaseAuth.currentUser;
     return user != null;
   }
+  Future<void> saveUserData({
+    required String name,
+    required String phoneNumber,
+    required DateTime selectedDate,
+    required List<String> selectedTimeSlots,
+
+
+  }) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').add({
+        'name': name,
+        'phoneNumber': phoneNumber,
+        'selectedDate': selectedDate,
+        'selectedTimeSlots': selectedTimeSlots,
+
+
+      });
+    } catch (e) {
+      print("Error saving user data: $e");
+    }
+  }
 }
+
