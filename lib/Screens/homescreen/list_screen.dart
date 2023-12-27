@@ -4,21 +4,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scissors_project/Screens/homescreen/service_list.dart';
 import '../bookingslots/bookingslot_screen.dart';
 
-
-
-
 class ListScreen extends StatefulWidget {
   @override
   _ListScreenState createState() => _ListScreenState();
 }
-
 class _ListScreenState extends State<ListScreen> {
   List<Services> selectedServices = [];
   double totalAmount = 0.0;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+      body: Stack(
       children: [
         Expanded(
           child: ListView.builder(
@@ -110,7 +107,7 @@ class _ListScreenState extends State<ListScreen> {
           ),
         ),
       ],
-    );
+      ),);
   }
 
   void _toggleService(Services service) {

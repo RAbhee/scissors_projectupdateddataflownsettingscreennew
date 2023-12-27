@@ -1,170 +1,213 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:scissors_project/Screens/dashboard/setting.dart';
 
-class AdminScreen extends StatelessWidget {
+import 'dashboard.dart';
+import 'history.dart';
+
+class DesktopScaffold extends StatefulWidget {
+  const DesktopScaffold({Key? key}) : super(key: key);
+
+  @override
+  State<DesktopScaffold> createState() => _DesktopScaffoldState();
+}
+
+class _DesktopScaffoldState extends State<DesktopScaffold> {
+  var tilePadding = const EdgeInsets.only(left: 8.0, right: 8, top: 8);
+
+  bool showHistory = false;
+  bool showDashboard = false;
+  bool showSettings = false;
+
+  bool isDashboardSelected = false;
+  bool isHistorySelected = false;
+  bool isSettingsSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Screen'),
-        centerTitle: true,
+        title: Row(children: [
+          Image.asset(
+            'assets/Scissors-image-remove.png',
+            height: 50,
+            width: 50,
+            fit: BoxFit.cover,
+          ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+          Text(
+            "Scissor's",
+            style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+          ),
+        ]),
+        actions: <Widget>[
+          Icon(Icons.account_circle,size: 35),
+          SizedBox(
+            width: 10,
+          ),
+          ElevatedButton.icon(
+            onPressed: () {},
+            label: Text("LOGOUT",style: TextStyle(color: Colors.white),),
+            icon: Icon(Icons.exit_to_app,color:Colors.white),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.indigo,
+            ),
+          )
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Update Service Price',
-              style: GoogleFonts.openSans(
-                textStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+      body: Row(
+        children: [
+          Drawer(
+            backgroundColor: Colors.white,
+            elevation: 10,
+            child: Column(
+              children: [
+                Padding(padding: EdgeInsets.symmetric(vertical: 25)),
+                //Icon(Icons.admin_panel_settings),
+                Text(
+                  "WELCOME ADMIN",
+                  style: TextStyle(fontSize: 25),
                 ),
+                Divider(
+                  thickness: 3,
+                  indent: 15,
+                  endIndent: 15,
+                ),
+                Padding(
+                  padding: tilePadding,
+                  child: ListTile(
+                    title: ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          showDashboard = true;
+                          showHistory = false;
+                          showSettings = false;
+                          isDashboardSelected = true;
+                          isHistorySelected = false;
+                          isSettingsSelected = false;
+                        });
+                      },
+                      icon: Icon(Icons.home_outlined,
+                          color: isDashboardSelected
+                              ? Colors.white
+                              : Colors.black),
+                      label: Text(
+                        "DASHBOARD",
+                        style: TextStyle(
+                            color: isDashboardSelected
+                                ? Colors.white
+                                : Colors.black),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: isDashboardSelected ? Colors.indigo : null,
+                        onPrimary: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: tilePadding,
+                  child: ListTile(
+                    title: ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          showDashboard = false;
+                          showHistory = true;
+                          showSettings = false;
+                          isDashboardSelected = false;
+                          isHistorySelected = true;
+                          isSettingsSelected = false;
+                        });
+                      },
+                      icon: Icon(Icons.history,
+                          color:
+                          isHistorySelected ? Colors.white : Colors.black),
+                      label: Text(
+                        "HISTORY",
+                        style: TextStyle(
+                            color: isHistorySelected
+                                ? Colors.white
+                                : Colors.black),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: isHistorySelected ? Colors.indigo : null,
+                        onPrimary: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: tilePadding,
+                  child: ListTile(
+                    title: ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          showDashboard = false;
+                          showHistory = false;
+                          showSettings = true;
+                          isDashboardSelected = false;
+                          isHistorySelected = false;
+                          isSettingsSelected = true;
+                        });
+                      },
+                      icon: Icon(Icons.settings,
+                          color:
+                          isSettingsSelected ? Colors.white : Colors.black),
+                      label: Text("SETTINGS",
+                          style: TextStyle(
+                              color: isSettingsSelected
+                                  ? Colors.white
+                                  : Colors.black)),
+                      style: ElevatedButton.styleFrom(
+                        primary: isSettingsSelected ? Colors.indigo : null,
+                        onPrimary: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      labelText: 'Search Bar',
+                      hintText: 'Type here',
+                      prefixIcon: Icon(Icons.search_rounded),
+                    ),
+                  ),
+                  Flexible(
+                    child: Column(
+                      children: [
+                        if (showDashboard)
+                          Expanded(
+                            child: Dashboard(),
+                          ),
+                        if (showHistory)
+                          Expanded(
+                            child: HistoryScreen(),
+                          ),
+                        if (showSettings)
+                          Expanded(
+                            child: Setting(),
+                          )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 8),
-            ServicePriceForm(),
-            SizedBox(height: 16),
-            Text(
-              'Add New Service',
-              style: GoogleFonts.openSans(
-                textStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            SizedBox(height: 8),
-            NewServiceForm(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
-  }
-}
-
-class ServicePriceForm extends StatefulWidget {
-  @override
-  _ServicePriceFormState createState() => _ServicePriceFormState();
-}
-
-class _ServicePriceFormState extends State<ServicePriceForm> {
-  TextEditingController _serviceNameController = TextEditingController();
-  TextEditingController _newPriceController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _serviceNameController,
-          decoration: InputDecoration(labelText: 'Service Name'),
-        ),
-        SizedBox(height: 8),
-        TextField(
-          controller: _newPriceController,
-          decoration: InputDecoration(labelText: 'New Price'),
-          keyboardType: TextInputType.number,
-        ),
-        SizedBox(height: 8),
-        ElevatedButton(
-          onPressed: () {
-            _updateServicePrice(context);
-          },
-          child: Text('Update Service Price'),
-        ),
-      ],
-    );
-  }
-
-  void _updateServicePrice(BuildContext context) async {
-    String serviceName = _serviceNameController.text.trim();
-    double newPrice = double.tryParse(_newPriceController.text) ?? 0.0;
-
-    if (serviceName.isNotEmpty) {
-      CollectionReference servicesCollection =
-      FirebaseFirestore.instance.collection('services');
-
-      await servicesCollection.doc(serviceName).update({
-        'price': newPrice,
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Service price updated successfully'),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter a valid service name'),
-        ),
-      );
-    }
-  }
-}
-
-class NewServiceForm extends StatefulWidget {
-  @override
-  _NewServiceFormState createState() => _NewServiceFormState();
-}
-
-class _NewServiceFormState extends State<NewServiceForm> {
-  TextEditingController _newServiceNameController = TextEditingController();
-  TextEditingController _newServicePriceController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _newServiceNameController,
-          decoration: InputDecoration(labelText: 'New Service Name'),
-        ),
-        SizedBox(height: 8),
-        TextField(
-          controller: _newServicePriceController,
-          decoration: InputDecoration(labelText: 'Price'),
-          keyboardType: TextInputType.number,
-        ),
-        SizedBox(height: 8),
-        ElevatedButton(
-          onPressed: () {
-            _addNewService(context);
-          },
-          child: Text('Add New Service'),
-        ),
-      ],
-    );
-  }
-
-  void _addNewService(BuildContext context) async {
-    String newServiceName = _newServiceNameController.text.trim();
-    double newServicePrice =
-        double.tryParse(_newServicePriceController.text) ?? 0.0;
-
-    if (newServiceName.isNotEmpty) {
-      CollectionReference servicesCollection =
-      FirebaseFirestore.instance.collection('services');
-
-      await servicesCollection.doc(newServiceName).set({
-        'name': newServiceName,
-        'price': newServicePrice,
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('New service added successfully'),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter a valid service name'),
-        ),
-      );
-    }
   }
 }
