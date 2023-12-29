@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class ServiceForm extends StatefulWidget {
   const ServiceForm({Key? key}) : super(key: key);
@@ -10,6 +13,20 @@ class ServiceForm extends StatefulWidget {
   @override
   State<ServiceForm> createState() => _ServiceFormState();
 }
+
+Future<void> updatePrice(String serviceName, double newPrice) async {
+  try {
+    CollectionReference pricesCollection =
+    FirebaseFirestore.instance.collection('prices');
+
+    await pricesCollection.doc(serviceName).update({'price': newPrice});
+  } catch (e) {
+    print('Error updating price: $e');
+  }
+}
+
+
+
 
 class _ServiceFormState extends State<ServiceForm> {
   TextEditingController _serviceNameController = TextEditingController();
@@ -198,22 +215,28 @@ class _ProfileFormState extends State<ProfileForm> {
 }
 
 class PriceUpdateForm extends StatefulWidget {
+  final String serviceId;
   final TextEditingController oldPriceController;
   final TextEditingController newPriceController1;
   final TextEditingController confirmPriceController2;
 
   const PriceUpdateForm({
     Key? key,
+    required this.serviceId,
     required this.oldPriceController,
     required this.newPriceController1,
     required this.confirmPriceController2,
   }) : super(key: key);
 
   @override
-  State<PriceUpdateForm> createState() => _PriceUpdateFormState();
+  State<PriceUpdateForm> createState() => _PriceUpdateFormState(serviceId: '');
 }
 
 class _PriceUpdateFormState extends State<PriceUpdateForm> {
+  final String serviceId; // Add this field
+
+  _PriceUpdateFormState({required this.serviceId});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -257,6 +280,17 @@ class _PriceUpdateFormState extends State<PriceUpdateForm> {
                   double.tryParse(widget.newPriceController1.text) ?? 0.0;
               double newPrice2 =
                   double.tryParse(widget.confirmPriceController2.text) ?? 0.0;
+
+
+              if (newPrice1 == newPrice2) {
+                // Update the price in Firestore
+                updatePrice(serviceId, newPrice1);
+              } else {
+                print('Prices do not match');
+                // Handle price confirmation mismatch
+                // You may want to show an error message or take appropriate action
+              }
+
 
               // Use 'oldPrice', 'newPrice1', and 'newPrice2' as needed for your logic
 

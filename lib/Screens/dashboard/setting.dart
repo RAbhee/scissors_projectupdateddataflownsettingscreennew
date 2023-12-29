@@ -123,7 +123,7 @@ class _SettingState extends State<Setting> {
                             child:  PriceUpdateForm(
                               oldPriceController: _oldPriceController,
                               newPriceController1: _newPriceController,
-                              confirmPriceController2: _confirmPriceController,
+                              confirmPriceController2: _confirmPriceController, serviceId: '',
 
 
                             ),

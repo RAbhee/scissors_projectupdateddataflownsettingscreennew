@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'Screens/dashboard/admin_screen.dart';
 import 'Screens/dashboard/dashboard.dart';
 import 'Screens/homescreen/list_screen.dart';
 import 'firebase_messaging.dart';
+
+CollectionReference servicesCollection = FirebaseFirestore.instance.collection('services');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
