@@ -158,9 +158,7 @@ class _ListScreenState extends State<ListScreen> {
                     ],
                   ),);
               }
-
-
-            void _toggleService(Services service) {
+              void _toggleService(Services service) {
     setState(() {
     if (selectedServices.contains(service)) {
     selectedServices.remove(service);
