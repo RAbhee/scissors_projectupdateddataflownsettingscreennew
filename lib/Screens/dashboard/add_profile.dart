@@ -1,11 +1,12 @@
-
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final FirebaseStorage _storage = FirebaseStorage.instance;
 
 class ServiceForm extends StatefulWidget {
   const ServiceForm({Key? key}) : super(key: key);
@@ -24,10 +25,6 @@ Future<void> updatePrice(String serviceName, double newPrice) async {
     print('Error updating price: $e');
   }
 }
-
-
-
-
 class _ServiceFormState extends State<ServiceForm> {
   TextEditingController _serviceNameController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
@@ -44,6 +41,35 @@ class _ServiceFormState extends State<ServiceForm> {
       });
     }
   }
+
+  Future<String?> uploadImage(File image) async {
+    try {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference reference = _storage.ref().child('images/$fileName');
+      UploadTask uploadTask = reference.putFile(image);
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+      return downloadURL;
+    } catch (e) {
+      print('Error uploading image: $e');
+      return null;
+    }
+  }
+  Future<void> addService(
+      String serviceName, String description, double price, String imageUrl) async {
+    try {
+      await _firestore.collection('services').add({
+        'name': serviceName,
+        'description': description,
+        'price': price,
+        'image': imageUrl,
+      });
+    } catch (e) {
+      print('Error adding service: $e');
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,12 +124,25 @@ class _ServiceFormState extends State<ServiceForm> {
           ),
           SizedBox(height: 5),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               // Handle form submission here
               String serviceName = _serviceNameController.text;
               String serviceDescription = _descriptionController.text;
               double servicePrice =
                   double.tryParse(_priceController.text) ?? 0.0;
+
+              String? imageUrl = await uploadImage(_image!);
+
+              if (imageUrl != null) {
+                // Image uploaded successfully, now add the service to Firestore
+                await addService(serviceName, serviceDescription, servicePrice, imageUrl);
+
+              await _firestore.collection('services').add({
+                'name': serviceName,
+                'description': serviceDescription,
+                'price': servicePrice,
+                // Add other fields as needed
+              });
 
               // Use 'serviceName', 'serviceDescription', 'servicePrice', and '_image' as needed for your logic
 
@@ -114,6 +153,9 @@ class _ServiceFormState extends State<ServiceForm> {
               setState(() {
                 _image = null;
               });
+            }else {
+                print('Image upload failed');
+              }
             },
             child: Text('Submit'),
           ),
@@ -192,13 +234,18 @@ class _ProfileFormState extends State<ProfileForm> {
           ),
           SizedBox(height: 5),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               // Handle profile form submission here
               String profileName = _profileNameController.text;
               String expertise = _expertiseController.text;
 
               // Use 'profileName', 'expertise', and '_profileImage' as needed for your logic
 
+              await _firestore.collection('profiles').add({
+                'name': profileName,
+                'expertise': expertise,
+                // Add other fields as needed
+              });
               // Reset the form after submission
               _profileNameController.clear();
               _expertiseController.clear();
@@ -216,6 +263,7 @@ class _ProfileFormState extends State<ProfileForm> {
 
 class PriceUpdateForm extends StatefulWidget {
   final String serviceId;
+  final TextEditingController servicenameController;
   final TextEditingController oldPriceController;
   final TextEditingController newPriceController1;
   final TextEditingController confirmPriceController2;
@@ -223,6 +271,7 @@ class PriceUpdateForm extends StatefulWidget {
   const PriceUpdateForm({
     Key? key,
     required this.serviceId,
+    required this.servicenameController,
     required this.oldPriceController,
     required this.newPriceController1,
     required this.confirmPriceController2,
@@ -236,6 +285,22 @@ class _PriceUpdateFormState extends State<PriceUpdateForm> {
   final String serviceId; // Add this field
 
   _PriceUpdateFormState({required this.serviceId});
+
+  Future<double?> updatePrice(String serviceName, double newPrice) async {
+    try {
+      CollectionReference pricesCollection =
+      FirebaseFirestore.instance.collection('prices');
+
+      await pricesCollection.doc(serviceName).update({'price': newPrice});
+
+      // Return the updated price
+      return newPrice;
+    } catch (e) {
+      print('Error updating price: $e');
+      return null;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -251,6 +316,12 @@ class _PriceUpdateFormState extends State<PriceUpdateForm> {
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
+          ),
+          SizedBox(height: 5),
+          TextField(
+            controller: widget.servicenameController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(labelText: 'Service Name'),
           ),
           SizedBox(height: 5),
           TextField(
@@ -295,6 +366,7 @@ class _PriceUpdateFormState extends State<PriceUpdateForm> {
               // Use 'oldPrice', 'newPrice1', and 'newPrice2' as needed for your logic
 
               // Reset the form after submission
+              widget.servicenameController.clear();
               widget.oldPriceController.clear();
               widget.newPriceController1.clear();
               widget.confirmPriceController2.clear();

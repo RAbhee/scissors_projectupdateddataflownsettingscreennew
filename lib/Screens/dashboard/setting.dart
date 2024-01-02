@@ -25,6 +25,7 @@ class _SettingState extends State<Setting> {
     )
         : selectedButtonStyle;
   }
+  TextEditingController _servicenameController = TextEditingController();
   TextEditingController _oldPriceController = TextEditingController();
   TextEditingController _newPriceController = TextEditingController();
   TextEditingController _confirmPriceController = TextEditingController();
@@ -121,6 +122,7 @@ class _SettingState extends State<Setting> {
                         if (selectedStylist == 3)
                           Expanded(
                             child:  PriceUpdateForm(
+                              servicenameController: _servicenameController,
                               oldPriceController: _oldPriceController,
                               newPriceController1: _newPriceController,
                               confirmPriceController2: _confirmPriceController, serviceId: '',
